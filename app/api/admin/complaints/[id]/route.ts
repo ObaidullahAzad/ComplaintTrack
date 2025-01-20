@@ -5,10 +5,13 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+type RouteSegment = {
+  params: {
+    id: string;
+  };
+};
+
+export async function PATCH(request: Request, context: RouteSegment) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -32,10 +35,10 @@ export async function PATCH(
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
     }
 
-    const { status } = await req.json();
+    const { status } = await request.json();
 
     const complaint = await Complaint.findByIdAndUpdate(
-      params.id,
+      context.params.id,
       { status },
       { new: true }
     );
@@ -54,10 +57,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request, context: RouteSegment) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -81,7 +81,7 @@ export async function DELETE(
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
     }
 
-    const complaint = await Complaint.findByIdAndDelete(params.id);
+    const complaint = await Complaint.findByIdAndDelete(context.params.id);
 
     if (!complaint) {
       return NextResponse.json(
