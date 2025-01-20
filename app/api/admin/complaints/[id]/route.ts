@@ -5,10 +5,13 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
+export async function PATCH(req: Request, { params }: RouteParams) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -20,7 +23,6 @@ export async function PATCH(
       );
     }
 
-    // Verify token and get user details
     const decoded = jwt.verify(token.value, process.env.JWT_SECRET!) as {
       id: string;
       role: string;
@@ -28,7 +30,6 @@ export async function PATCH(
 
     await connectDB();
 
-    // Get user from database to double-check role
     const user = await User.findById(decoded.id);
     if (!user || user.role !== "admin") {
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
@@ -56,10 +57,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request, { params }: RouteParams) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
