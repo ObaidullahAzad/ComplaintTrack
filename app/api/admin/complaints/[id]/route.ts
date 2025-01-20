@@ -5,13 +5,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 
-type RouteSegment = {
-  params: {
-    id: string;
-  };
-};
-
-export async function PATCH(request: Request, context: RouteSegment) {
+export async function PATCH(request: Request) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -36,9 +30,11 @@ export async function PATCH(request: Request, context: RouteSegment) {
     }
 
     const { status } = await request.json();
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
 
     const complaint = await Complaint.findByIdAndUpdate(
-      context.params.id,
+      id,
       { status },
       { new: true }
     );
@@ -57,7 +53,7 @@ export async function PATCH(request: Request, context: RouteSegment) {
   }
 }
 
-export async function DELETE(request: Request, context: RouteSegment) {
+export async function DELETE(request: Request) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -81,7 +77,10 @@ export async function DELETE(request: Request, context: RouteSegment) {
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
     }
 
-    const complaint = await Complaint.findByIdAndDelete(context.params.id);
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
+
+    const complaint = await Complaint.findByIdAndDelete(id);
 
     if (!complaint) {
       return NextResponse.json(
