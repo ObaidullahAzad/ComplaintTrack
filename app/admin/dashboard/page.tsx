@@ -48,8 +48,12 @@ export default function AdminDashboard() {
       }
 
       setComplaints(data.complaints);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -71,8 +75,12 @@ export default function AdminDashboard() {
 
       // Refresh complaints list
       fetchComplaints();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 
@@ -92,8 +100,12 @@ export default function AdminDashboard() {
 
       // Refresh complaints list after successful deletion
       fetchComplaints();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 

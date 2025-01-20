@@ -50,7 +50,7 @@ export async function PATCH(
     }
 
     return NextResponse.json({ success: true, complaint });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Update complaint error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
@@ -93,7 +93,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true, data: {} });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Delete complaint error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }

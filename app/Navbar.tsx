@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 
 export default function Navbar() {
   const router = useRouter();
