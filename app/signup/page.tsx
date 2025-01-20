@@ -35,8 +35,12 @@ export default function SignUp() {
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user);
       router.push("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 

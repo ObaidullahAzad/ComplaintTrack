@@ -40,8 +40,12 @@ export default function MyComplaints() {
       }
 
       setComplaints(data.complaints);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }

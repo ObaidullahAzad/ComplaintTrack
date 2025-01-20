@@ -33,7 +33,7 @@ export async function GET(req: Request) {
     const status = searchParams.get("status");
     const priority = searchParams.get("priority");
 
-    let query: any = {};
+    const query: { status?: string; priority?: string } = {};
     if (status) query.status = status;
     if (priority) query.priority = priority;
 
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
       .sort({ createdAt: -1 });
 
     return NextResponse.json({ success: true, complaints });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Admin complaints error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
