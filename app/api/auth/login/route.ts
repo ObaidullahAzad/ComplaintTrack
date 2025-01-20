@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/utils/database";
 import User from "@/models/User";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
@@ -51,7 +51,10 @@ export async function POST(req: Request) {
     return response;
   } catch (error) {
     return NextResponse.json(
-      { message: "An error occurred while logging in" },
+      {
+        message: "An error occurred while logging in",
+        error: (error as Error).message,
+      },
       { status: 500 }
     );
   }

@@ -34,8 +34,12 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
       setUser(data.user);
       router.push("/");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 
@@ -89,7 +93,7 @@ export default function Login() {
           </button>
         </form>
         <p className="text-center mt-4">
-          Don't have an account?{" "}
+          Don`&apos;`t have an account?{" "}
           <Link
             href="/signup"
             className="text-indigo-600 hover:text-indigo-500"

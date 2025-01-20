@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, complaint }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Complaint creation error:", error);
     return NextResponse.json(
       { message: "An error occurred while creating the complaint" },
@@ -65,7 +65,7 @@ export async function GET() {
     }); // Sort by newest first
 
     return NextResponse.json({ success: true, complaints });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Fetch complaints error:", error);
     return NextResponse.json(
       { message: "An error occurred while fetching complaints" },

@@ -5,10 +5,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: Request) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -20,7 +17,6 @@ export async function PATCH(
       );
     }
 
-    // Verify token and get user details
     const decoded = jwt.verify(token.value, process.env.JWT_SECRET!) as {
       id: string;
       role: string;
@@ -28,16 +24,17 @@ export async function PATCH(
 
     await connectDB();
 
-    // Get user from database to double-check role
     const user = await User.findById(decoded.id);
     if (!user || user.role !== "admin") {
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
     }
 
-    const { status } = await req.json();
+    const { status } = await request.json();
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
 
     const complaint = await Complaint.findByIdAndUpdate(
-      params.id,
+      id,
       { status },
       { new: true }
     );
@@ -56,10 +53,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -83,7 +77,10 @@ export async function DELETE(
       return NextResponse.json({ message: "Not authorized" }, { status: 403 });
     }
 
-    const complaint = await Complaint.findByIdAndDelete(params.id);
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
+
+    const complaint = await Complaint.findByIdAndDelete(id);
 
     if (!complaint) {
       return NextResponse.json(
