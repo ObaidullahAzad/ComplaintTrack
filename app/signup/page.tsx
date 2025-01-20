@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignUp() {
   const router = useRouter();
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,7 +33,8 @@ export default function SignUp() {
       }
 
       localStorage.setItem("user", JSON.stringify(data.user));
-      router.push("/"); // Redirect to home page
+      setUser(data.user);
+      router.push("/");
     } catch (err: any) {
       setError(err.message);
     }

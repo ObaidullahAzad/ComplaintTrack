@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/utils/database";
 import User from "@/models/User";
-import { setAuthCookie } from "@/utils/cookies";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
@@ -29,15 +29,24 @@ export async function POST(req: Request) {
 
     const token = user.getSignedJwtToken();
 
+    // Create the response with role included
     const response = NextResponse.json({
       success: true,
       user: {
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
 
-    setAuthCookie(token);
+    // Set the cookie directly on the response
+    response.cookies.set("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      path: "/",
+    });
 
     return response;
   } catch (error) {

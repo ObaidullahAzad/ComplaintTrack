@@ -2,25 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
 import Image from "next/image";
-
-interface User {
-  name: string;
-  email: string;
-}
 
 export default function Navbar() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -38,9 +27,26 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold">
-          Your App
-        </Link>
+        <div className="flex items-center space-x-6">
+          <Link href="/" className="text-xl font-bold">
+            Complaint Track
+          </Link>
+          {user && user.role !== "admin" && (
+            <>
+              <Link href="/raise-complaint" className="hover:text-gray-300">
+                Raise a Complaint
+              </Link>
+              <Link href="/my-complaints" className="hover:text-gray-300">
+                My Complaints
+              </Link>
+            </>
+          )}
+          {user?.role === "admin" && (
+            <Link href="/admin/dashboard" className="hover:text-gray-300">
+              Admin Dashboard
+            </Link>
+          )}
+        </div>
         <div className="space-x-4">
           {user ? (
             <div className="relative">

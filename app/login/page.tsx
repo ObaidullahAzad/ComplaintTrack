@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const router = useRouter();
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -30,6 +32,7 @@ export default function Login() {
       }
 
       localStorage.setItem("user", JSON.stringify(data.user));
+      setUser(data.user);
       router.push("/");
     } catch (err: any) {
       setError(err.message);
@@ -86,7 +89,7 @@ export default function Login() {
           </button>
         </form>
         <p className="text-center mt-4">
-          Don&apos;t have an account?{" "}
+          Don't have an account?{" "}
           <Link
             href="/signup"
             className="text-indigo-600 hover:text-indigo-500"
