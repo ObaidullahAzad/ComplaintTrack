@@ -5,13 +5,10 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
-
-export async function PATCH(req: Request, { params }: RouteParams) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
@@ -57,7 +54,10 @@ export async function PATCH(req: Request, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: Request, { params }: RouteParams) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token");
