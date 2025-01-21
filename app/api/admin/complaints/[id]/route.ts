@@ -4,6 +4,7 @@ import Complaint from "@/models/Complaint";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
+import { sendStatusUpdateEmail } from "@/utils/email";
 
 export async function PATCH(request: Request) {
   try {
@@ -45,6 +46,14 @@ export async function PATCH(request: Request) {
         { status: 404 }
       );
     }
+
+    // Send email notification to admin
+    const adminEmail = process.env.ADMIN_EMAIL!;
+    await sendStatusUpdateEmail(adminEmail, {
+      title: complaint.title,
+      newStatus: status,
+      updatedAt: new Date(),
+    });
 
     return NextResponse.json({ success: true, complaint });
   } catch (error) {
