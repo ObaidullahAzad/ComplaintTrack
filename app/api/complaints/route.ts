@@ -3,6 +3,7 @@ import connectDB from "@/utils/database";
 import Complaint from "@/models/Complaint";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { sendComplaintNotificationEmail } from "@/utils/email";
 
 export async function POST(req: Request) {
   try {
@@ -30,6 +31,14 @@ export async function POST(req: Request) {
       category,
       priority,
       user: decoded.id,
+    });
+
+    const adminEmail = process.env.ADMIN_EMAIL!;
+    await sendComplaintNotificationEmail(adminEmail, {
+      title,
+      category,
+      priority,
+      description,
     });
 
     return NextResponse.json({ success: true, complaint }, { status: 201 });
@@ -62,7 +71,7 @@ export async function GET() {
 
     const complaints = await Complaint.find({ user: decoded.id }).sort({
       createdAt: -1,
-    }); // Sort by newest first
+    });
 
     return NextResponse.json({ success: true, complaints });
   } catch (error) {
