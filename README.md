@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# Complaint Management
+
+Efficiently manage and resolve complaints with our user-friendly platform, built using Next.js for optimal performance and scalability. Designed to streamline the entire complaint process, this website empowers users to easily submit issues, track their progress in real-time, and receive timely updates on resolutions. 
+
+
+## Screenshots
+
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/realestate-a7d81.appspot.com/o/Screenshot%202025-01-23%20001017.png?alt=media&token=0531fd8d-58cd-4ed6-bdb3-f9718ed90154)
+
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/realestate-a7d81.appspot.com/o/Screenshot%202025-01-23%20001059.png?alt=media&token=34850e9a-5372-4e5d-8eb5-092c32677ac7)
+
+![App Screenshot](https://firebasestorage.googleapis.com/v0/b/realestate-a7d81.appspot.com/o/Screenshot%202025-01-23%20001136.png?alt=media&token=06a2e607-8646-4b05-91eb-d45b863fe692)
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technologies](#technologies)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Feedback](#feedback)
+
+## Project Overview
+
+Streamline complaint management with this Website, built using Next.js and MongoDB for a seamless and scalable experience. Designed to make the process of submitting, tracking, and resolving complaints simple and transparent, this platform offers updates and robust data handling.
+
+With integrated email functionality powered by Nodemailer, admin receive timely notifications about complaint status, ensuring they are always informed. Whether you're addressing product issues, service concerns, or customer feedback, this platform prioritizes security, efficiency, and user satisfaction.
+## Features
+
+- User authentication and authorization (JWT)
+- Admin Role with Admin Dashboard
+- Email notification for admin
+- Seamless complaint submission
+
+
+## Technologies
+
+- Next
+- MongoDB
+- Tailwind CSS
+- JWT Authentication
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+Before running the application, make sure you have the following installed:
+
+- Node.js
+### Installation
+
+1.Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/ObaidullahAzad/ComplaintTrack
+```
+2.Create a .env file in root directory as shown in Enviromant variable section
+
+3.Install dependencies
+
+```bash
+  npm install
+```
+4.Start the project
+```bash
+  npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    
+## Environment Variables
 
-## Learn More
+To run this project, you will need to add the following environment variables to your .env file
 
-To learn more about Next.js, take a look at the following resources:
+#### Root directory
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`MONGO_URI`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`JWT_SECRET`
 
-## Deploy on Vercel
+#### For Email functionality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`EMAIL_HOST` ethereal email
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`EMAIL_PORT` set it to 587
+
+`EMAIL_USER` sender email address
+
+`EMAIL_PASS` sender email password
+
+`ADMIN_EMAIL` Receiver email address
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at azadobaidullah19@gmail.com
+
+
+## Authors
+
+- [@ObaidullahAzad](https://github.com/ObaidullahAzad)
+
