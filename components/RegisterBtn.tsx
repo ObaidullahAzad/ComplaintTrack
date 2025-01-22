@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function RegisterBtn() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="text-white text-xl m-5 font-semibold ">
