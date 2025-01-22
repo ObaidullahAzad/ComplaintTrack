@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-// import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,14 +18,16 @@ export default function Navbar() {
       });
       localStorage.removeItem("user");
       setUser(null);
+      toast.success("Logged out successfully");
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
+      toast.error("Failed to logout");
     }
   };
 
   return (
-    <nav className="bg-blue-200 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+    <nav className="bg-slate-900 text-white p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-6">
           <Link href="/" className="text-xl font-bold">
@@ -81,10 +83,13 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <Link href="/login" className="hover:text-gray-300">
+              <Link href="/login" className="hover:text-gray-300 font-semibold">
                 Login
               </Link>
-              <Link href="/signup" className="hover:text-gray-300">
+              <Link
+                href="/signup"
+                className="hover:text-gray-300 font-semibold"
+              >
                 Sign Up
               </Link>
             </>

@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@nestjs/jwt": "^11.0.0",
+    "@types/aos": "^3.0.7",
     "@types/bcrypt": "^5.0.2",
     "@types/nodemailer": "^6.4.17",
+    "aos": "^3.0.0-beta.6",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
@@ -19,7 +21,10 @@
     "next": "15.1.5",
     "nodemailer": "^6.9.16",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "react-spinners": "^0.15.0",
+    "react-toastify": "^11.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

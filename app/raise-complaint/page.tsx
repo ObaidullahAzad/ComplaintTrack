@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import BarLoader from "react-spinners/BarLoader";
 
 const categories = ["Product", "Service", "Support"];
 const priorities = ["Low", "Medium", "High"];
@@ -10,6 +11,7 @@ const priorities = ["Low", "Medium", "High"];
 export default function RaiseComplaint() {
   const router = useRouter();
   const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: "",
@@ -21,6 +23,7 @@ export default function RaiseComplaint() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await fetch("/api/complaints", {
         method: "POST",
         headers: {
@@ -37,6 +40,7 @@ export default function RaiseComplaint() {
 
       router.push("/my-complaints");
     } catch (error: unknown) {
+      setLoading(false);
       if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -52,7 +56,7 @@ export default function RaiseComplaint() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Raise a Complaint</h1>
+      <h1 className="text-2xl font-semibold mb-6">Raise a Complaint</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -150,9 +154,9 @@ export default function RaiseComplaint() {
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
+          className="w-full bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-slate-700"
         >
-          Submit Complaint
+          {loading ? <BarLoader color="white" /> : "Login"}
         </button>
       </form>
     </div>

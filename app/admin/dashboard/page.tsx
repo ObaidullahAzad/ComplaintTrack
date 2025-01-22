@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import ScaleLoader from "react-spinners/ScaleLoader";
+import { ImBin } from "react-icons/im";
 
 interface Complaint {
   _id: string;
@@ -109,7 +111,12 @@ export default function AdminDashboard() {
     }
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading)
+    return (
+      <div className="p-6">
+        <ScaleLoader />
+      </div>
+    );
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   const filteredComplaints = complaints.filter((complaint) => {
@@ -122,8 +129,6 @@ export default function AdminDashboard() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
-
-      {/* Filters */}
       <div className="mb-6 flex gap-4">
         <select
           className="border rounded-md px-3 py-2"
@@ -220,20 +225,20 @@ export default function AdminDashboard() {
                   {new Date(complaint.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 ">
                     <button
                       onClick={() =>
                         router.push(`/admin/complaints/${complaint._id}`)
                       }
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-slate-600 bg-slate-200 rounded-xl  p-2  hover:text-white hover:bg-slate-500"
                     >
                       View Details
-                    </button>
+                    </button>{" "}
                     <button
                       onClick={() => deleteComplaint(complaint._id)}
-                      className="text-red-600 hover:text-red-900"
+                      className="text-red-600 hover:text-red-900 p-3 bg-red-100 rounded-2xl"
                     >
-                      Delete
+                      <ImBin />
                     </button>
                   </div>
                 </td>

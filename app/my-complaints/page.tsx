@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 interface Complaint {
   _id: string;
@@ -56,7 +57,7 @@ export default function MyComplaints() {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <p>Loading...</p>
+        <ScaleLoader />
       </div>
     );
   }
