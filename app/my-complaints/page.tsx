@@ -72,7 +72,7 @@ export default function MyComplaints() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">My Complaints</h1>
+      <h1 className="text-2xl font-semibold mb-6">My Complaints</h1>
       {complaints.length === 0 ? (
         <p>No complaints found.</p>
       ) : (
@@ -80,10 +80,12 @@ export default function MyComplaints() {
           {complaints.map((complaint) => (
             <div
               key={complaint._id}
-              className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+              className="border rounded-lg p-4 transition-shadow shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] hover:shadow-[rgba(50,50,93,0.25)_0px_6px_12px_-2px,_rgba(0,0,0,0.3)_0px_3px_7px_-3px]"
             >
               <div className="flex justify-between items-start mb-2">
-                <h2 className="text-xl font-semibold">{complaint.title}</h2>
+                <h2 className="text-lg sm:text-xl font-semibold">
+                  {complaint.title}
+                </h2>
                 <div className="flex space-x-2">
                   <span
                     className={`px-2 py-1 rounded text-sm ${getPriorityColor(

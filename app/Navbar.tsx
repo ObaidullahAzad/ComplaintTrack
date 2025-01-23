@@ -30,15 +30,21 @@ export default function Navbar() {
     <nav className="bg-slate-900 text-white p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-6">
-          <Link href="/" className="text-xl font-bold">
+          <Link href="/" className="text-lg sm:text-xl font-bold">
             Complaint Track
           </Link>
           {user && user.role !== "admin" && (
             <>
-              <Link href="/raise-complaint" className="hover:text-gray-300">
+              <Link
+                href="/raise-complaint"
+                className="text-sm sm:text-base hover:text-gray-300"
+              >
                 Raise a Complaint
               </Link>
-              <Link href="/my-complaints" className="hover:text-gray-300">
+              <Link
+                href="/my-complaints"
+                className="text-sm sm:text-base  hover:text-gray-300"
+              >
                 My Complaints
               </Link>
             </>

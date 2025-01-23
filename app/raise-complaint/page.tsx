@@ -156,7 +156,7 @@ export default function RaiseComplaint() {
           type="submit"
           className="w-full bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-slate-700"
         >
-          {loading ? <BarLoader color="white" /> : "Login"}
+          {loading ? <BarLoader color="white" /> : "Submit"}
         </button>
       </form>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -39,7 +39,8 @@ export default function AdminDashboard() {
     fetchComplaints();
   }, [user, router]);
 
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback(async () => {
+    setLoading(true);
     try {
       const queryParams = new URLSearchParams(filters).toString();
       const res = await fetch(`/api/admin/complaints?${queryParams}`);
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   const updateStatus = async (complaintId: string, newStatus: string) => {
     try {
@@ -75,7 +76,6 @@ export default function AdminDashboard() {
         throw new Error("Failed to update status");
       }
 
-      // Refresh complaints list
       fetchComplaints();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -100,7 +100,6 @@ export default function AdminDashboard() {
         throw new Error("Failed to delete complaint");
       }
 
-      // Refresh complaints list after successful deletion
       fetchComplaints();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -119,13 +118,6 @@ export default function AdminDashboard() {
     );
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
-  const filteredComplaints = complaints.filter((complaint) => {
-    if (filters.status && complaint.status !== filters.status) return false;
-    if (filters.priority && complaint.priority !== filters.priority)
-      return false;
-    return true;
-  });
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
@@ -133,10 +125,7 @@ export default function AdminDashboard() {
         <select
           className="border rounded-md px-3 py-2"
           value={filters.status}
-          onChange={(e) => {
-            setFilters({ ...filters, status: e.target.value });
-            fetchComplaints();
-          }}
+          onChange={(e) => setFilters({ ...filters, status: e.target.value })}
         >
           <option value="">All Status</option>
           <option value="Pending">Pending</option>
@@ -147,10 +136,7 @@ export default function AdminDashboard() {
         <select
           className="border rounded-md px-3 py-2"
           value={filters.priority}
-          onChange={(e) => {
-            setFilters({ ...filters, priority: e.target.value });
-            fetchComplaints();
-          }}
+          onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
         >
           <option value="">All Priority</option>
           <option value="Low">Low</option>
@@ -159,7 +145,13 @@ export default function AdminDashboard() {
         </select>
       </div>
 
-      {/* Complaints Table */}
+      <button
+        onClick={fetchComplaints}
+        className="mb-4 bg-slate-700 text-white px-4 py-2 rounded"
+      >
+        Apply Filters
+      </button>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded-lg">
           <thead className="bg-gray-50">
@@ -188,7 +180,7 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {filteredComplaints.map((complaint) => (
+            {complaints.map((complaint) => (
               <tr key={complaint._id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
                   {complaint.title}
